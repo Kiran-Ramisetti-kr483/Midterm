@@ -1,9 +1,11 @@
 import os
 import pkgutil
 import importlib
+import sys
 from app.commands import CommandHandler
 from app.commands import Command
 from dotenv import load_dotenv
+from app.plugins.menu import MenuCommand  # Import MenuCommand
 
 class App:
     def __init__(self): # Constructor
@@ -44,5 +46,9 @@ class App:
         # Register commands here
         self.load_plugins()
         print("Type 'exit' to exit.")
-        while True:  #REPL Read, Evaluate, Print, Loop
-            self.command_handler.execute_command(input(">>> ").strip())
+        while True:  # REPL (Read, Evaluate, Print, Loop)
+            user_input = input(">>> ").strip()
+            if user_input.lower() == 'menu':  # Check if user input is 'menu'
+                MenuCommand().execute([])  # Execute MenuCommand
+            else:
+                self.command_handler.execute_command(user_input)
