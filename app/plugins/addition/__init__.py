@@ -4,6 +4,6 @@ class AdditionCommand(Command):
         if args:
             a = float(args[0])
             b = float(args[1])
-            print ('result of addition is' ,a+b)
+            return a+b
         else:
             print ("nothing to add")

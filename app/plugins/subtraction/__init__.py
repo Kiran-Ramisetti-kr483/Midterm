@@ -5,6 +5,8 @@ class SubtractionCommand(Command):
         if args:
             a = float(args[0])
             b = float(args[1])
-            print (f"result of subtraction is : { a - b }")
+            result = a - b  # Perform subtraction
+            return result  # Return the result
         else:
-            print ("nothing to subtract")
+            print("Nothing to subtract")
+            return None  # Return None if no arguments are provided
