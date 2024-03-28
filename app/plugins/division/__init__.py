@@ -7,7 +7,7 @@ class DivisionCommand(Command):
             b = float(args[1])
             try:
                 result = a/b
-                print (f" Division result : {result}")
+                print (f" result of division is  : {result}")
             except:
                 print ("division by zero error ")
         else:

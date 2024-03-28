@@ -5,6 +5,6 @@ class MultiplicationCommand(Command):
         if args:
             a = float(args[0])
             b = float(args[1])
-            print (f"multiplication result : { a * b }")
+            print (f"result of multiplication is : { a * b }")
         else:
             print ("nothing to multiply")
