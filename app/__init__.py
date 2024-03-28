@@ -5,6 +5,7 @@ import sys
 from app.commands import CommandHandler
 from app.commands import Command
 from dotenv import load_dotenv
+from app.plugins.claculation_history import claculation_history
 from app.plugins.menu import MenuCommand  # Import MenuCommand
 
 class App:
@@ -17,6 +18,7 @@ class App:
         # Default to 'PRODUCTION' if 'ENVIRONMENT' not set
         self.settings.setdefault('ENVIRONMENT', 'TESTING')        
         self.command_handler = CommandHandler()
+        self.history_manager = None  # Initialize history manager as None
 
     def getEnvironmentVariable(self, envvar: str = 'ENVIRONMENT'):
         return self.settings[envvar]
@@ -46,9 +48,10 @@ class App:
         # Register commands here
         self.load_plugins()
         print("Type 'exit' to exit.")
+        self.history_manager = claculation_history()  # Instantiate CalculationHistoryManager
         while True:  # REPL (Read, Evaluate, Print, Loop)
             user_input = input(">>> ").strip()
             if user_input.lower() == 'menu':  # Check if user input is 'menu'
-                MenuCommand().execute([])  # Execute MenuCommand
+                MenuCommand(self.history_manager).execute([])  # Execute MenuCommand with history manager
             else:
                 self.command_handler.execute_command(user_input)
