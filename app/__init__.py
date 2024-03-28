@@ -2,29 +2,36 @@ import os
 import pkgutil
 import importlib
 import sys
+import logging
 from app.commands import CommandHandler
 from app.commands import Command
 from dotenv import load_dotenv
-from app.plugins.claculation_history import claculation_history
 from app.plugins.menu import MenuCommand  # Import MenuCommand
+from app.plugins.claculation_history import claculation_history  # Import claculation_history
+
+# Ensure the 'logs' directory exists
+log_dir = os.path.join(os.getcwd(), 'logs')
+os.makedirs(log_dir, exist_ok=True)
+
+# Configure logging
+log_file = os.path.join(log_dir, 'app.log')
+logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 class App:
-    def __init__(self): # Constructor
+    def __init__(self):
         load_dotenv()
-        self.settings = {}  # Initialize settings as an empty dictionary
-        # Load all environment variables into settings
+        self.settings = {}
         for key, value in os.environ.items():
             self.settings[key] = value
-        # Default to 'PRODUCTION' if 'ENVIRONMENT' not set
-        self.settings.setdefault('ENVIRONMENT', 'TESTING')        
+        self.settings.setdefault('ENVIRONMENT', 'TESTING')
         self.command_handler = CommandHandler()
-        self.history_manager = None  # Initialize history manager as None
+        self.history_manager = claculation_history()  # Instantiate CalculationHistoryManager
 
     def getEnvironmentVariable(self, envvar: str = 'ENVIRONMENT'):
         return self.settings[envvar]
     
     def load_plugins(self):
-        # Dynamically load all plugins in the plugins directory
         plugins_packages = [
             'app.plugins.addition',
             'app.plugins.subtraction',
@@ -34,24 +41,32 @@ class App:
         ]
         for plugins_package in plugins_packages:
             for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
-                if is_pkg:  # Ensure it's a package
+                if is_pkg:  
                     plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
                     for item_name in dir(plugin_module):
                         item = getattr(plugin_module, item_name)
                         try:
-                            if issubclass(item, (Command)):  # Assuming a BaseCommand class exists
+                            if issubclass(item, (Command)):  
                                 self.command_handler.register_command(plugin_name, item())
                         except TypeError:
-                            continue  # If item is not a class or unrelated class, just ignore
+                            continue
 
     def start(self):
-        # Register commands here
         self.load_plugins()
+        logger.info("Application started.")
         print("Type 'exit' to exit.")
-        self.history_manager = claculation_history()  # Instantiate CalculationHistoryManager
-        while True:  # REPL (Read, Evaluate, Print, Loop)
+        while True:
             user_input = input(">>> ").strip()
-            if user_input.lower() == 'menu':  # Check if user input is 'menu'
-                MenuCommand(self.history_manager).execute([])  # Execute MenuCommand with history manager
+            if user_input.lower() == 'menu':
+                logger.info("Menu command executed.")
+                MenuCommand(self.history_manager).execute([])  # Pass history_manager to MenuCommand
             else:
                 self.command_handler.execute_command(user_input)
+
+if __name__ == "__main__":
+    app = App()
+    try:
+        app.start()
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+        sys.exit(1)

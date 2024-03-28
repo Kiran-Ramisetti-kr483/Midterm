@@ -1,0 +1,14 @@
+2024-03-28 18:22:06,148 - app - INFO - Application started.
+2024-03-28 18:22:08,621 - app - INFO - Menu command executed.
+2024-03-28 18:22:08,621 - app.plugins.menu - INFO - Menu command executed.
+2024-03-28 18:22:10,516 - app.plugins.menu - INFO - User choice: 1
+2024-03-28 18:22:10,516 - app.plugins.menu - INFO - User chose Addition
+2024-03-28 18:22:12,155 - app.plugins.menu - INFO - Addition operation performed.
+2024-03-28 18:22:17,164 - app - INFO - Menu command executed.
+2024-03-28 18:22:17,165 - app.plugins.menu - INFO - Menu command executed.
+2024-03-28 18:22:20,400 - app.plugins.menu - INFO - User choice: 5
+2024-03-28 18:22:20,401 - app.plugins.menu - INFO - User chose to display history
+2024-03-28 18:22:23,093 - app - INFO - Menu command executed.
+2024-03-28 18:22:23,093 - app.plugins.menu - INFO - Menu command executed.
+2024-03-28 18:22:24,756 - app.plugins.menu - INFO - User choice: 9
+2024-03-28 18:22:24,756 - app.plugins.menu - INFO - User chose to exit
