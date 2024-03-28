@@ -6,6 +6,10 @@ import logging
 from app.commands import CommandHandler
 from app.commands import Command
 from dotenv import load_dotenv
+import warnings
+
+# Filter out FutureWarnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 from app.plugins.menu import MenuCommand  # Import MenuCommand
 from app.plugins.claculation_history import claculation_history  # Import claculation_history
 

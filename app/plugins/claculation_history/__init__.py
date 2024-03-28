@@ -5,34 +5,26 @@ class claculation_history:
         self.history = pd.DataFrame(columns=['Operation', 'Operand1', 'Operand2', 'Result'])
 
     def add_entry(self, operation, operand1, operand2, result):
-        new_entry = pd.DataFrame({'Operation': [operation], 
-                                  'Operand1': [operand1], 
-                                  'Operand2': [operand2], 
-                                  'Result': [result]})
-        if self.history.empty:
-            self.history = new_entry
-        else:
-            self.history = pd.concat([self.history, new_entry], ignore_index=True, sort=False)
+        new_entry = pd.DataFrame([[operation, operand1, operand2, result]], columns=['Operation', 'Operand1', 'Operand2', 'Result'])
+        self.history = pd.concat([self.history, new_entry], ignore_index=True)
+        print("Entry added to history.")
 
     def display_history(self):
-        print("Calculation History:")
         print(self.history)
 
     def save_history(self, filename):
+        if not filename.endswith('.csv'):
+            filename += '.csv'
         self.history.to_csv(filename, index=False)
-
-    def load_history(self, filename):
-        try:
-            self.history = pd.read_csv(filename)
-        except FileNotFoundError:
-            print("History file not found.")
+        print(f"History saved to {filename}.")
 
     def clear_history(self):
         self.history = pd.DataFrame(columns=['Operation', 'Operand1', 'Operand2', 'Result'])
+        print("History cleared.")
 
     def delete_entry(self, index):
-        if index < len(self.history):
+        try:
             self.history.drop(index, inplace=True)
-            print("Entry deleted successfully.")
-        else:
-            print("Invalid index.")
+            print("Entry deleted.")
+        except KeyError:
+            print("Invalid index. Entry does not exist.")
