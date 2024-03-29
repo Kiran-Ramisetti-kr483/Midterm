@@ -2,12 +2,14 @@ import pandas as pd
 
 class claculation_history:
     def __init__(self):
-        self.history = pd.DataFrame(columns=['Operation', 'Operand1', 'Operand2', 'Result'])
+        self.history = pd.DataFrame()
 
-    def add_entry(self, operation, operand1, operand2, result):
-        new_entry = pd.DataFrame([[operation, operand1, operand2, result]], columns=['Operation', 'Operand1', 'Operand2', 'Result'])
-        self.history = pd.concat([self.history, new_entry], ignore_index=True)
-        print("Entry added to history.")
+    def add_entry(self, operation, num1, num2, result):
+        new_entry = pd.DataFrame({'Operation': [operation], 'Number1': [num1], 'Number2': [num2], 'Result': [result]})
+        if self.history.empty:
+            self.history = new_entry
+        else:
+            self.history = pd.concat([self.history, new_entry], ignore_index=True)
 
     def display_history(self):
         print(self.history)

@@ -5,8 +5,11 @@ from app.plugins.addition import AdditionCommand
 from app.plugins.subtraction import SubtractionCommand
 from app.plugins.multiplication import MultiplicationCommand
 from app.plugins.division import DivisionCommand
+import sys
+from app.commands import Command
 
 # Configure logging
+import logging
 logger = logging.getLogger(__name__)
 
 class MenuCommand(Command):
@@ -94,8 +97,4 @@ class MenuCommand(Command):
             print("Exiting...")
             sys.exit()
 
-        else:
-            logger.warning("User entered invalid choice")
-            print("Invalid choice. Please enter a valid option.")
-
-# End of MenuCommand class
+       
