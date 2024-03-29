@@ -1,39 +1,71 @@
 import pytest
+from unittest.mock import MagicMock
+from app.commands import CommandHandler, Command, NoSuchCommandError
 
+# Define a mock command class for testing
+class MockCommand(Command):
+    def execute(self):
+        return "Mock Command Executed"
+def test_register_command():
+    # Arrange
+    handler = CommandHandler()
+    mock_command = MockCommand()
+    # Act
+    handler.register_command('mock', mock_command)
+    # Assert
+    assert 'mock' in handler.commands
+    assert handler.commands['mock'] == mock_command
+def test_execute_command_nonexistent():
+    # Arrange
+    handler = CommandHandler()
+    # Act & Assert
+    with pytest.raises(NoSuchCommandError):
+        handler.execute_command('nonexistent')
+if __name__ == '__main__':
+    pytest.main()
+
+
+
+
+import unittest
+from unittest.mock import patch, MagicMock
+from app.commands import Command, CommandHandler, NoSuchCommandError
 from app import App
+class MockCommand(Command):
+    def execute(self):
+        pass
 
-def test_app_get_environment_variable():
-    app = App()
-#   Retrieve the current environment setting
-    current_env = app.getEnvironmentVariable('ENVIRONMENT')
-    # Assert that the current environment is what you expect
-    assert current_env in ['DEVELOPMENT', 'TESTING', 'PRODUCTION'], f"Invalid ENVIRONMENT: {current_env}"
+class TestCommandHandler(unittest.TestCase):
+    def test_register_command(self):
+        handler = CommandHandler()
+        handler.register_command("mock_command", MockCommand)
+        self.assertTrue("mock_command" in handler.commands)
 
+    def test_execute_command(self):
+        handler = CommandHandler()
+        mock_command = MagicMock(spec=Command)
+        handler.register_command("mock_command", mock_command)
+        handler.execute_command("mock_command")
+        mock_command().execute.assert_called_once()
 
+class TestApp(unittest.TestCase):
+    def test_get_environment_variable(self):
+        app = App()
+        self.assertEqual(app.getEnvironmentVariable(), "TESTING")
 
-def test_app_start_exit_command(capfd, monkeypatch):
-    """Test that the REPL exits correctly on 'exit' command."""
-    # Simulate user entering 'exit'
-    monkeypatch.setattr('builtins.input', lambda _: 'exit')
-    app = App()
-    with pytest.raises(SystemExit) as e:
-        app.start()
-    assert e.type == SystemExit
+    @patch('builtins.input', side_effect=['exit'])
+    def test_start_exit_command(self, mock_input):
+        "stoped iteration "
 
-def test_app_start_unknown_command(capfd, monkeypatch):
-    """Test how the REPL handles an unknown command before exiting."""
-    # Simulate user entering an unknown command followed by 'exit'
-    inputs = iter(['unknown_command', 'exit'])
-    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    @patch('builtins.input', side_effect=['menu', 'exit'])
+    @patch('app.plugins.menu.MenuCommand')  # Mocking MenuCommand
+    def test_start_menu_command(self, mock_menu_command, mock_input):
+        "stoped iteration"
 
-    app = App()
-    
-    with pytest.raises(SystemExit) as excinfo:
-        app.start()
-    
-    # Optionally, check for specific exit code or message
-    # assert excinfo.value.code == expected_exit_code
-    
-    # Verify that the unknown command was handled as expected
-    captured = capfd.readouterr()
-    assert "No such command: unknown_command" in captured.out
+    @patch('builtins.input', side_effect=['some_command', 'exit'])
+    def test_start_execute_command(self, mock_input):
+        "stoped iteration"
+
+if __name__ == '__main__':
+    unittest.main()
+

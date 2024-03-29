@@ -5,6 +5,9 @@ class Command(ABC):
     def execute(self):
         pass
 
+class NoSuchCommandError(Exception):
+    pass
+
 class CommandHandler:
     def __init__(self):
         self.commands = {}
@@ -15,7 +18,7 @@ class CommandHandler:
     def execute_command(self, command_name: str, *args):
         try:
             command_class = self.commands[command_name]
-            command = command_class(*args)
-            command.execute()
+            command_instance = command_class()
+            command_instance.execute(*args)
         except KeyError:
-            print(f"No such command: {command_name}")
+            raise NoSuchCommandError(f"No such command: {command_name}")

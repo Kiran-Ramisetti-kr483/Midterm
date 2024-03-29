@@ -96,7 +96,7 @@ class App:
     def start(self):
         self.load_plugins()
         logger.info("Application started.")
-        print("Type 'exit' to exit.")
+        print("Type 'menu to get menu.")
         while True:
             user_input = input(">>> ").strip()
             if user_input.lower() == 'menu':

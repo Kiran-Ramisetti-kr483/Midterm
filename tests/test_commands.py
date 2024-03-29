@@ -1,135 +1,189 @@
+import unittest
+import pandas as pd
+from unittest.mock import MagicMock, patch
 from io import StringIO
-import pytest
-from app import App
-from app.plugins.division import DivisionCommand
 from app.plugins.addition import AdditionCommand
-from app.plugins.multiplication import MultiplicationCommand
 from app.plugins.subtraction import SubtractionCommand
-from app.plugins.Menu import MenuCommand
-from app.commands import Command, CommandHandler
-from unittest.mock import MagicMock
+from app.plugins.multiplication import MultiplicationCommand
+from app.plugins.division import DivisionCommand
+from app.commands import Command
+from app.plugins.claculation_history import claculation_history
+from app.plugins.menu import MenuCommand
 
-class MockCommand(Command):
-    def execute(self):
-        pass
 
-def test_app_add_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'add' command."""
-    inputs = iter(['add 2 3', 'exit'])
-    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-    app = App()
-    with pytest.raises(SystemExit):
-        app.start()
+class TestAdditionCommand(unittest.TestCase):
+    def test_execute_with_args(self):
+        """Test execute method with arguments."""
+        command = AdditionCommand()
+        result = command.execute(["2", "3"])
+        self.assertEqual(result, 5.0)
 
-def test_menu_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'menu' command."""
-    inputs = iter(['menu', 'exit'])
-    monkeypatch.setattr('sys.stdin', StringIO('\n'.join(inputs)))
-    command = MenuCommand()
-    command.execute([])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "Menu"
+    def test_execute_no_args(self):
+        """Test execute method with no arguments."""
+        command = AdditionCommand()
+        result = command.execute([])
+        self.assertIsNone(result)
+        # You can also check if the expected message is printed
+        # by capturing stdout using `unittest.mock.patch`
 
-def test_command_handler_register_command():
-    """Test registering command in command handler."""
-    handler = CommandHandler()
-    mock_command = MockCommand()
-    handler.register_command('mock', mock_command)
-    assert handler.commands['mock'] == mock_command
+class TestSubtractionCommand(unittest.TestCase):
+    def test_execute_with_args(self):
+        """Test execute method with arguments."""
+        command = SubtractionCommand()
+        result = command.execute(["5", "3"])
+        self.assertEqual(result, 2.0)
 
-def test_command_handler_execute_command():
-    """Test executing command in command handler."""
-    handler = CommandHandler()
-    mock_command = MagicMock()
-    handler.register_command('mock', mock_command)
-    handler.execute_command('mock')
-    mock_command.execute.assert_called_once()
+    def test_execute_no_args(self):
+        """Test execute method with no arguments."""
+        command = SubtractionCommand()
+        result = command.execute([])
+        self.assertIsNone(result)
+        # You can also check if the expected message is printed
+        # by capturing stdout using `unittest.mock.patch`
 
-def test_command_handler_execute_command_no_args():
-    """Test executing command in command handler with no args."""
-    handler = CommandHandler()
-    mock_command = MagicMock()
-    handler.register_command('mock', mock_command)
-    handler.execute_command('mock')
-    mock_command.execute.assert_called_once()
 
-def test_addition_command_no_args(capfd):
-    """Test that addition command handles no arguments."""
-    command = AdditionCommand()
-    command.execute([])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "nothing to add"
+class TestMultiplicationCommand(unittest.TestCase):
+    def test_execute_with_args(self):
+        """Test execute method with arguments."""
+        command = MultiplicationCommand()
+        result = command.execute(["2", "3"])
+        self.assertEqual(result, 6.0)
 
-def test_addition_command_with_args(capfd):
-    """Test that addition command handles arguments."""
-    command = AdditionCommand()
-    command.execute(["2", "3"])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "5.0"
+    def test_execute_no_args(self):
+        """Test execute method with no arguments."""
+        command = MultiplicationCommand()
+        result = command.execute([])
+        self.assertIsNone(result)
+        # You can also check if the expected message is printed
+        # by capturing stdout using `unittest.mock.patch`
 
-def test_division_command_no_args(capfd):
-    """Test that division command handles no arguments."""
-    command = DivisionCommand()
-    command.execute([])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "nothing to Divide"
 
-def test_division_command_division_by_zero(capfd):
-    """Test that division command handles division by zero."""
-    command = DivisionCommand()
-    command.execute(["5", "0"])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "division by zero error"
+class TestDivisionCommand(unittest.TestCase):
+    def test_execute_with_args(self):
+        """Test execute method with arguments."""
+        command = DivisionCommand()
+        result = command.execute(["6", "2"])
+        self.assertEqual(result, 3.0)
 
-def test_division_command_with_args(capfd):
-    """Test that division command handles arguments."""
-    command = DivisionCommand()
-    command.execute(["10", "2"])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "Division result : 5.0"
+    def test_execute_division_by_zero(self):
+        """Test execute method with division by zero."""
+        command = DivisionCommand()
+        result = command.execute(["5", "0"])
+        self.assertIsNone(result)
+        # You can also check if the expected message is printed
+        # by capturing stdout using `unittest.mock.patch`
+
+    def test_execute_no_args(self):
+        """Test execute method with no arguments."""
+        command = DivisionCommand()
+        result = command.execute([])
+        self.assertIsNone(result)
+        # You can also check if the expected message is printed
+        # by capturing stdout using `unittest.mock.patch`
 
 
 
-def test_app_multiplication_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'multiply' command."""
-    inputs = iter(['multiply 2 3', 'exit'])
-    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-    app = App()
-    with pytest.raises(SystemExit):
-        app.start()
+class TestClaculationHistory(unittest.TestCase):
+    def setUp(self):
+        self.history = claculation_history()
 
-def test_multiplication_command_no_args(capfd):
-    """Test that multiplication command handles no arguments."""
-    command = MultiplicationCommand()
-    command.execute([])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "nothing to multiply"
+    def test_add_entry(self):
+        self.history.add_entry('Addition', 2, 3, 5)
+        self.assertEqual(len(self.history.history), 1)
 
-def test_multiplication_command_with_args(capfd):
-    """Test that multiplication command handles arguments."""
-    command = MultiplicationCommand()
-    command.execute(["2", "3"])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "multiplication result : 6.0"
+    def test_display_history(self):
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            self.history.add_entry('Addition', 2, 3, 5)
+            self.history.display_history()
+            self.assertIn("Addition", mock_stdout.getvalue())
 
-def test_app_subtraction_command(capfd, monkeypatch):
-    """Test that the REPL correctly handles the 'subtract' command."""
-    inputs = iter(['subtract 5 3', 'exit'])
-    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-    app = App()
-    with pytest.raises(SystemExit):
-        app.start()
+    def test_save_history(self):
+        filename = "test_history.csv"
+        self.history.add_entry('Addition', 2, 3, 5)
+        self.history.save_history(filename)
+        data = pd.read_csv(filename)
+        self.assertEqual(len(data), 1)
 
-def test_subtraction_command_no_args(capfd):
-    """Test that subtraction command handles no arguments."""
-    command = SubtractionCommand()
-    command.execute([])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "nothing to subtract"
+    def test_clear_history(self):
+        self.history.add_entry('Addition', 2, 3, 5)
+        self.history.clear_history()
+        self.assertTrue(self.history.history.empty)
 
-def test_subtraction_command_with_args(capfd):
-    """Test that subtraction command handles arguments."""
-    command = SubtractionCommand()
-    command.execute(["5", "3"])
-    captured = capfd.readouterr()
-    assert captured.out.strip() == "Subtraction result : 2.0"
+    def test_delete_entry(self):
+        self.history.add_entry('Addition', 2, 3, 5)
+        self.history.delete_entry(0)
+        self.assertTrue(self.history.history.empty)
+
+
+class TestMenuCommand(unittest.TestCase):
+    def setUp(self):
+        self.history_manager = claculation_history()
+
+    def test_menu_command_addition(self):
+        with patch('builtins.input', side_effect=['1', '2', '3', 'exit']):
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                menu_command = MenuCommand(self.history_manager)
+                menu_command.execute([])
+                self.assertIn("result of addition is", mock_stdout.getvalue())
+
+    def test_menu_command_subtraction(self):
+        with patch('builtins.input', side_effect=['2', '5', '3', 'exit']):
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                menu_command = MenuCommand(self.history_manager)
+                menu_command.execute([])
+                self.assertIn("result of subtraction is", mock_stdout.getvalue())
+
+    def test_menu_command_multiplication(self):
+        with patch('builtins.input', side_effect=['3', '2', '3', 'exit']):
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                menu_command = MenuCommand(self.history_manager)
+                menu_command.execute([])
+                self.assertIn("result of multiplication is", mock_stdout.getvalue())
+
+    def test_menu_command_division(self):
+        with patch('builtins.input', side_effect=['4', '6', '3', 'exit']):
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                menu_command = MenuCommand(self.history_manager)
+                menu_command.execute([])
+                self.assertIn("result of division is", mock_stdout.getvalue())
+
+    def test_menu_command_display_history(self):
+        with patch('builtins.input', side_effect=['5', 'exit']):
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                self.history_manager.add_entry('Addition', 2, 3, 5)
+                menu_command = MenuCommand(self.history_manager)
+                menu_command.execute([])
+                self.assertIn("Addition", mock_stdout.getvalue())
+
+    @patch('app.plugins.claculation_history.claculation_history.save_history')
+    def test_menu_command_save_history(self, mock_save_history):
+        with patch('builtins.input', side_effect=['6', 'test_history.csv', 'exit']):
+            menu_command = MenuCommand(self.history_manager)
+            menu_command.execute([])
+            mock_save_history.assert_called_with('test_history.csv')
+
+    @patch('app.plugins.claculation_history.claculation_history.clear_history')
+    def test_menu_command_clear_history(self, mock_clear_history):
+        with patch('builtins.input', side_effect=['7', 'y', 'exit']):
+            self.history_manager.add_entry('Addition', 2, 3, 5)
+            menu_command = MenuCommand(self.history_manager)
+            menu_command.execute([])
+            mock_clear_history.assert_called()
+
+    @patch('app.plugins.claculation_history.claculation_history.delete_entry')
+    def test_menu_command_delete_entry(self, mock_delete_entry):
+        with patch('builtins.input', side_effect=['8', '0', 'exit']):
+            self.history_manager.add_entry('Addition', 2, 3, 5)
+            menu_command = MenuCommand(self.history_manager)
+            menu_command.execute([])
+            mock_delete_entry.assert_called_with(0)
+
+    def test_menu_command_exit(self):
+        with patch('builtins.input', side_effect=['9']):
+            with self.assertRaises(SystemExit):
+                menu_command = MenuCommand(self.history_manager)
+                menu_command.execute([])
+
+
+if __name__ == "__main__":
+    unittest.main()
