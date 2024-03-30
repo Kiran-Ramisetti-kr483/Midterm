@@ -131,4 +131,4 @@ c. The above command will start the app and asks you to enter the prompt menu to
 
 ** Video for the Calculator app demo** 
 
-(https://drive.google.com/file/d/1YozkMscs2g5La1fV8Mbo9scNzbT8_wxy/view?usp=drive_link)
+[![Video]](https://drive.google.com/file/d/1YozkMscs2g5La1fV8Mbo9scNzbT8_wxy/view?usp=drive_link)
