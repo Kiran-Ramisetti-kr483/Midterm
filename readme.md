@@ -99,7 +99,8 @@ On the other hand, the "Easier to Ask for Forgiveness than Permission" (EAFP) ap
 
 **4. Working:**
 a. first set up the github repository and then link it to your wsl-2 IDE.
-    ```python
+    
+    ```php
     git remote add origin <paste your github repository ssh link>
     git add .
     git commit -m "add your commit statement"
@@ -107,6 +108,7 @@ a. first set up the github repository and then link it to your wsl-2 IDE.
     ssh-keygen -t rsa -b 2048  (this command will create a ssh key)
     vi ~/.ssh/id_rsa.pub (This will open the file containing th essh key. Paste this key in the github profile ssh key section)
     ```
+    
 
 b. Setup the python environment
 
