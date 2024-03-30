@@ -5,7 +5,7 @@
 *a. Command Pattern:* Implemented in the Command and CommandHandler classes, providing a way to encapsulate requests as objects, allowing parameterization of clients with queues, and supporting undoable operations.
 
 Code snipped:
-
+'''python
 from abc import ABC, abstractmethod
 class Command(ABC):
     @abstractmethod
@@ -20,7 +20,7 @@ class CommandHandler:
         command = self.create_command(command_name)
         if command:
             command.execute()
-
+'''
 *b. Factory Pattern:* Utilized in the AppFactory class to dynamically create instances of command objects based on specified packages.
 Code snipped:
 import pkgutil
