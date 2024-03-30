@@ -50,6 +50,7 @@ class AppFactory:
                         except TypeError:
                             continue
         return commands ```
+```
 
 *c. Facade Pattern:* Applied in the AppFacade class to provide a simplified interface (perform_data_manipulation()) to complex operations (Pandas data manipulation).
 
@@ -63,3 +64,34 @@ class AppFacade:
         # This could involve operations like filtering, transformation, aggregation, etc.
         pass
     ```
+
+**Environment Variables Usage:**
+Environment variables are used for settings such as defining the environment (ENVIRONMENT), which defaults to 'TESTING'. These variables are loaded from a .env file using python-dotenv.
+
+*Example snippet:*
+```python
+def getEnvironmentVariable(self, envvar: str = 'ENVIRONMENT'):
+   return self.settings[envvar]
+```
+
+**Logging:**
+Logging is configured using Python's built-in logging module. Log messages are written to a file (app.log) located in a directory named logs. The logging level is set to INFO, and a specific format is defined for the log messages.
+
+*Example snippet:*
+```python
+logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+Try/Except and Exceptions:
+Exceptions are used for error handling in various parts of the code. For example, in the DivisionCommand class, a try/except block catches a ZeroDivisionError if the divisor is zero, and an error message is printed.
+
+*Example snippet:*
+```python
+python
+Copy code
+try:
+    return a / b
+except ZeroDivisionError:
+    print("Division by zero error")
+```
+
+This demonstrates the "Look Before You Leap" (LBYL) approach, where potential errors are anticipated and handled explicitly.
+On the other hand, the "Easier to Ask for Forgiveness than Permission" (EAFP) approach is used in various parts of the code, where actions are attempted first, and exceptions are caught and handled if they occur.
