@@ -48,3 +48,18 @@
 2024-03-29 20:52:49,206 - app.plugins.menu - INFO - Menu command executed.
 2024-03-29 20:52:50,137 - app.plugins.menu - INFO - User choice: 9
 2024-03-29 20:52:50,137 - app.plugins.menu - INFO - User chose to exit
+2024-03-29 22:57:27,906 - app - INFO - Application started.
+2024-03-29 22:57:30,731 - app - INFO - Menu command executed.
+2024-03-29 22:57:30,731 - app.plugins.menu - INFO - Menu command executed.
+2024-03-29 22:57:32,842 - app.plugins.menu - INFO - User choice: 1
+2024-03-29 22:57:32,842 - app.plugins.menu - INFO - User chose Addition
+2024-03-29 22:57:34,602 - app.plugins.menu - INFO - Addition operation performed.
+2024-03-29 22:57:38,488 - app - INFO - Menu command executed.
+2024-03-29 22:57:38,488 - app.plugins.menu - INFO - Menu command executed.
+2024-03-29 22:57:41,182 - app.plugins.menu - INFO - User choice: 2
+2024-03-29 22:57:41,182 - app.plugins.menu - INFO - User chose Subtraction
+2024-03-29 22:57:44,821 - app.plugins.menu - INFO - Subtraction operation performed.
+2024-03-29 22:59:19,297 - app - INFO - Menu command executed.
+2024-03-29 22:59:19,297 - app.plugins.menu - INFO - Menu command executed.
+2024-03-29 22:59:32,325 - app.plugins.menu - INFO - User choice: 9
+2024-03-29 22:59:32,325 - app.plugins.menu - INFO - User chose to exit

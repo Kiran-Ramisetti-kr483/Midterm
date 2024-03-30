@@ -106,7 +106,7 @@ a. first set up the github repository and then link it to your wsl-2 IDE.
     git push orign master 
     ssh-keygen -t rsa -b 2048  (this command will create a ssh key)
     vi ~/.ssh/id_rsa.pub (This will open the file containing th essh key. Paste this key in the github profile ssh key section)
-    ```python
+    ```
 
 b. Setup the python environment
 
