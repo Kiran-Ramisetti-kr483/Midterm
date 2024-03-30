@@ -65,7 +65,7 @@ class AppFacade:
         pass
     ```
 
-**Environment Variables Usage:**
+**2. Environment Variables Usage:**
 Environment variables are used for settings such as defining the environment (ENVIRONMENT), which defaults to 'TESTING'. These variables are loaded from a .env file using python-dotenv.
 
 *Example snippet:*
@@ -74,7 +74,7 @@ def getEnvironmentVariable(self, envvar: str = 'ENVIRONMENT'):
    return self.settings[envvar]
 ```
 
-**Logging:**
+**3. Logging:**
 Logging is configured using Python's built-in logging module. Log messages are written to a file (app.log) located in a directory named logs. The logging level is set to INFO, and a specific format is defined for the log messages.
 
 *Example snippet:*
