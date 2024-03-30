@@ -129,6 +129,6 @@ python3 main.py
 
 c. The above command will start the app and asks you to enter the prompt menu to display the menu. From there you can select the option you want to interact with and after that command operation is done it will again as you to enter menu again so that you can choose the option to interact with. This goes on till you select exit from the menu.
 
-** Video for the Calculator app demo **
+** Video for the Calculator app demo** 
 
 [![Video](https://drive.google.com/file/d/1YozkMscs2g5La1fV8Mbo9scNzbT8_wxy/view?usp=drive_link.jpg)](https://drive.google.com/file/d/1YozkMscs2g5La1fV8Mbo9scNzbT8_wxy/view?usp=drive_link)
