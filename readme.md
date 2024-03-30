@@ -3,8 +3,10 @@
 **1. Design Patterns Used:**
 
 *a. Command Pattern:* Implemented in the Command and CommandHandler classes, providing a way to encapsulate requests as objects, allowing parameterization of clients with queues, and supporting undoable operations.
+
 Code snipped:
-`from abc import ABC, abstractmethod
+
+from abc import ABC, abstractmethod
 class Command(ABC):
     @abstractmethod
     def execute(self):
@@ -17,11 +19,11 @@ class CommandHandler:
     def execute_command(self, command_name: str):
         command = self.create_command(command_name)
         if command:
-            command.execute()`
+            command.execute()
 
 *b. Factory Pattern:* Utilized in the AppFactory class to dynamically create instances of command objects based on specified packages.
 Code snipped:
-`import pkgutil
+import pkgutil
 import importlib
 class AppFactory:
     @staticmethod
@@ -45,12 +47,12 @@ class AppFactory:
                         except TypeError:
                             continue
         return commands
-`
+
 *c. Facade Pattern:* Applied in the AppFacade class to provide a simplified interface (perform_data_manipulation()) to complex operations (Pandas data manipulation).
 Code snipped:
-`class AppFacade:
+class AppFacade:
     @staticmethod
     def perform_data_manipulation(data):
         # Perform complex Pandas data manipulations here
         # This could involve operations like filtering, transformation, aggregation, etc.
-        pass`
+        pass
