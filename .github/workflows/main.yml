@@ -33,7 +33,3 @@ jobs:
       - name: Test with pytest --pylint --cov
         run: |
           pytest --pylint --cov
-      - name: Copy Workflow Logs
-        env:
-          OUTPUT_FOLDER: logs
-        run: python copy_logs.py "${{ github.repository_owner }}" "${{ github.event.repository.name }}" "${{ github.run_id }}" "${OUTPUT_FOLDER}"
