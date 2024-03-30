@@ -55,16 +55,16 @@ class TestApp(unittest.TestCase):
 
     @patch('builtins.input', side_effect=['exit'])
     def test_start_exit_command(self, mock_input):
-        "stoped iteration "
+        pass
 
     @patch('builtins.input', side_effect=['menu', 'exit'])
     @patch('app.plugins.menu.MenuCommand')  # Mocking MenuCommand
     def test_start_menu_command(self, mock_menu_command, mock_input):
-        "stoped iteration"
+        pass
 
     @patch('builtins.input', side_effect=['some_command', 'exit'])
     def test_start_execute_command(self, mock_input):
-        "stoped iteration"
+        pass
 
 if __name__ == '__main__':
     unittest.main()
