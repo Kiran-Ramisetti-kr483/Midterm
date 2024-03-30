@@ -95,3 +95,32 @@ except ZeroDivisionError:
 
 This demonstrates the "Look Before You Leap" (LBYL) approach, where potential errors are anticipated and handled explicitly.
 On the other hand, the "Easier to Ask for Forgiveness than Permission" (EAFP) approach is used in various parts of the code, where actions are attempted first, and exceptions are caught and handled if they occur.
+
+
+**4. Working:**
+a. first set up the github repository and then link it to your wsl-2 IDE.
+    ```htm
+    git remote add origin <paste your github repository ssh link>
+    git add .
+    git commit -m "add your commit statement"
+    git push orign master 
+    ssh-keygen -t rsa -b 2048  (this command will create a ssh key)
+    vi ~/.ssh/id_rsa.pub (This will open the file containing th essh key. Paste this key in the github profile ssh key section)
+    ```
+
+b. Setup the python environment
+    ```python
+    sudo apt update -y
+    sudo apt install python3-pip
+    pip3 --version
+    (the above commands will update the wsl-2 and installs the python-3 packages)
+    pip3 install virtualenv (This command will install virtual environment)
+    virtualenv venv (This command will create a virtual environment venu)
+    source ./venv/bin/activate (This command will activate the virtual environment.)
+    pip3 install -r requirments.txt (This command will install all the required packages)
+    pytest (Runs the tests)
+    pytest --pylint  (Runs tests with pylint static code analysis)
+    pytest --pylint --cov (Runs tests, pylint, and coverage to check if you have all your code tested.)
+    python3 main.py 
+    ```
+    The above command will start the app and asks you to enter the prompt menu to display the menu. From there you can select the option you want to interact with and after that command operation is done it will again as you to enter menu again so that you can choose the option to interact with. This goes on till you select exit from the menu.
